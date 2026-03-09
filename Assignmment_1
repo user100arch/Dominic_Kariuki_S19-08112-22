@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 // PART A: Class Design
@@ -11,83 +12,66 @@ private:
 
 public:
     // PART B: Constructor
-    BankAccount(int accNum, string accHolder, double initialBalance) {
+    // Initializes the account details upon creation
+    BankAccount(int accNum, string name, double initialBalance) {
         accountNumber = accNum;
-        accountHolder = accHolder;
+        accountHolder = name;
         balance = initialBalance;
     }
 
     // PART C: Member Functions
-
-    // 1. Deposit
+    
+    // 1. Deposit money
     void deposit(double amount) {
-        if (amount <= 0) {
-            cout << "Invalid deposit amount." << endl;
-            return;
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposit: " << amount << endl;
+            cout << "New Balance: " << balance << endl;
         }
-        balance += amount;
-        cout << "Deposit: " << amount << endl;
-        cout << "New Balance: " << balance << endl;
     }
 
-    // 2. Withdraw
+    // 2. Withdraw money with insufficient funds check
     void withdraw(double amount) {
-        if (amount <= 0) {
-            cout << "Invalid withdrawal amount." << endl;
-            return;
-        }
         if (amount > balance) {
-            cout << "Insufficient funds. Withdrawal denied." << endl;
-            return;
+            cout << "Withdrawal of " << amount << " failed: Insufficient funds!" << endl;
+        } else if (amount > 0) {
+            balance -= amount;
+            cout << "Withdrawal: " << amount << endl;
+            cout << "New Balance: " << balance << endl;
         }
-        balance -= amount;
-        cout << "Withdrawal: " << amount << endl;
-        cout << "New Balance: " << balance << endl;
     }
 
-    // 3. Display Account
+    // 3. Display account details
     void displayAccount() {
+        cout << "------------------------------" << endl;
         cout << "Account Number: " << accountNumber << endl;
         cout << "Account Holder: " << accountHolder << endl;
         cout << "Balance: " << balance << endl;
+        cout << "------------------------------" << endl;
     }
 };
 
 // PART D: Main Function
 int main() {
-    // Create 2 BankAccount objects
+    // 1. Create at least 2 BankAccount objects
     BankAccount account1(101, "John", 5000);
-    BankAccount account2(102, "Jane", 3000);
+    BankAccount account2(102, "Sarah", 3000);
 
-    // Account 1 operations
+    // Display initial state of Account 1
     account1.displayAccount();
-    account1.deposit(1000);
-    account1.withdraw(2000);
 
+    // 2. Perform transactions for Account 1
+    account1.deposit(1000);     // One deposit
     cout << endl;
+    account1.withdraw(2000);    // One withdrawal
 
-    // Account 2 operations
+    // 3. Display updated information
+    cout << "\nUpdated Details for John:" << endl;
+    account1.displayAccount();
+
+    // Quick check on Account 2
+    cout << "\nDetails for Sarah:" << endl;
     account2.displayAccount();
-    account2.deposit(500);
-    account2.withdraw(5000); // Should trigger insufficient funds
 
     return 0;
 }
-```
-
-**Output:**
-```
-Account Number: 101
-Account Holder: John
-Balance: 5000
-Deposit: 1000
-New Balance: 6000
-Withdrawal: 2000
-New Balance: 4000
-
-Account Number: 102
-Account Holder: Jane
-Balance: 3000
-Deposit: 500
-New Balance: 3500
-Insufficient funds. Withdrawal denied.
